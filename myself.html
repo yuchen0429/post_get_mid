@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+   
+  <script src="setting.js"></script>
+  <script src="Cookie.js"></script> 
+  <script src="dateTime.js"></script> 
+  <script src="HTTP2024.js"></script>
+
+ <script>
+  //respiratoryRate.js
+
+  var jsonObj = {
+    "resourceType": "Observation",
+    "status": "final",
+    "category": [
+      {"coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+            "code": "vital-signs",
+            "display": "Vital Signs"
+          }
+        ],
+        "text": "Vital Signs"
+      }
+    ],
+    "code": {
+      "coding": [
+        { "system": "http://loinc.org",
+          "code": "789-8",
+          "display": "Respiratory rate"
+        }
+      ],
+      "text": "Respiratory rate"
+    },
+    "subject": {
+      "reference": "Patient/5293",
+      "display": "葉語宸"
+    },
+    "effectiveDateTime": "2023-10-10T10:30:00+00:00",
+    "valueQuantity": {
+      "value": 18.0,
+      "unit": "/min",
+      "system": "http://unitsofmeasure.org",
+      "code": "/min"
+    }
+  };
+	 
+   function postData()
+   { jsonObj.valueQuantity.value = parseFloat(document.getElementById("redboll").value);
+     jsonObj.effectiveDateTime = getFormattedTime();
+     var jsonStr = JSON.stringify(jsonObj);
+     //alart(jsonObj.valueQuantity.value);
+    var apiURL;
+    apiURL = FHIRrootURL  + "Observation";
+    // HTTPPostData( apiURL,jsonStr);
+    sendHttpPost(apiURL, jsonStr, callBack);
+   } 
+   function callBack(ret) {
+        console.log(ret);    
+        //alert(ret);
+        }
+ 
+</script>	
+	
+</head>
+<body style="height: 780px">
+ 
+    <p>請輸入紅血球數量:</p>
+   
+     <input id="Button1" onclick="postData()"  type="button" value="postData" /><br/>
+     
+     紅血球數量: <input type="text" id="redboll" />  百萬<br/>
+    <ul>
+      <li><a href="index.html">返回</li>
+    </ul>
+</body>
+</html>
